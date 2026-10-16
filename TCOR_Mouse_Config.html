@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TCOR Mouse Config</title>
+<style>
+:root{--red:#ff2424;--bg:#080808;--panel:#171717;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{padding:24px 18px 18px;text-align:center;border-bottom:1px solid #3b1111;background:linear-gradient(180deg,#260909,#080808)}
+.logo{font-size:12px;letter-spacing:4px;color:var(--red);font-weight:bold}
+h1{margin:8px 0 4px;font-size:25px;letter-spacing:1px}header p{margin:0;color:#bbb;font-size:12px}
+main{max-width:560px;margin:auto;padding:16px}
+.card{background:var(--panel);border:1px solid #382020;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 0 16px #ff20200a}
+.title{font-size:13px;font-weight:bold;color:var(--red);letter-spacing:1px;margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+label{font-size:14px}small{color:var(--muted);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--red);margin:14px 0}
+.val{color:var(--red);font-weight:bold}
+button{border:0;border-radius:9px;padding:12px 14px;font-weight:bold;cursor:pointer}
+.primary{background:var(--red);color:#fff}.secondary{background:#2a2a2a;color:#fff;border:1px solid #4b2929}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.toggle{width:52px;height:29px;border-radius:30px;background:#444;position:relative;padding:0;flex-shrink:0}
+.toggle:after{content:"";position:absolute;top:4px;left:4px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.18s}
+.toggle.on{background:var(--red)}.toggle.on:after{left:27px}
+.status{display:inline-block;border:1px solid #533;color:#ff7777;border-radius:20px;padding:6px 10px;font-size:11px}
+.notice{font-size:12px;line-height:1.5;color:#bbb}
+footer{text-align:center;padding:12px;color:#666;font-size:11px}
+input[type=file]{display:none}
+</style>
+</head>
+<body>
+<header><div class="logo">TCOR BY KYUUZE</div><h1>MOUSE CONFIG</h1><p>BLACK • RED EDITION | MOBILADOR / USB OTG</p></header>
+<main>
+  <section class="card">
+    <div class="row"><div><div class="title">DEVICE STATUS</div><div id="deviceText">Preset lokal siap digunakan</div><small>Halaman ini tidak dapat memastikan koneksi OTG secara otomatis.</small></div><span class="status">READY</span></div>
+  </section>
+  <section class="card">
+    <div class="title">SENSITIVITY PRESET</div>
+    <div class="row"><label for="general">General</label><span class="val" id="generalVal">90</span></div>
+    <input id="general" type="range" min="0" max="200" value="90">
+    <div class="row"><label for="redDot">Red Dot</label><span class="val" id="redDotVal">85</span></div>
+    <input id="redDot" type="range" min="0" max="200" value="85">
+    <div class="row"><label for="scope2">2x Scope</label><span class="val" id="scope2Val">80</span></div>
+    <input id="scope2" type="range" min="0" max="200" value="80">
+    <div class="row"><label for="scope4">4x Scope</label><span class="val" id="scope4Val">70</span></div>
+    <input id="scope4" type="range" min="0" max="200" value="70">
+    <div class="row"><label for="dpi">Mouse DPI (catatan)</label><span class="val" id="dpiVal">800</span></div>
+    <input id="dpi" type="range" min="200" max="3200" step="100" value="800">
+    <small>Nilai ini adalah preset/catatan yang bisa kamu sesuaikan di pengaturan yang didukung game atau perangkat.</small>
+  </section>
+  <section class="card">
+    <div class="title">QUICK PRESETS</div>
+    <div class="actions">
+      <button class="secondary" id="stablePreset">STABIL</button>
+      <button class="secondary" id="dragPreset">DRAG HEADSHOT</button>
+      <button class="secondary" id="trackingPreset">TRACKING</button>
+      <button class="secondary" id="customPreset">CUSTOM</button>
+    </div>
+    <p class="notice">Preset ini mengubah nilai latihan yang ditampilkan di aplikasi saja. Sesuaikan kembali di pengaturan game/perangkat.</p>
+  </section>
+  <section class="card">
+    <div class="title">AIM TRAINER • PRACTICE ONLY</div>
+    <p class="notice">Latihan terpisah dari Free Fire. Klik target merah yang muncul untuk menguji koordinasi dan kecepatan respons.</p>
+    <div class="row" style="margin-bottom:10px"><span>Waktu: <b id="timeLeft">30</b>s</span><span>Skor: <b id="score">0</b></span><span>Akurasi: <b id="accuracy">0%</b></span></div>
+    <div id="arena" style="height:260px;position:relative;overflow:hidden;background:#090909;border:1px solid #542020;border-radius:12px;touch-action:manipulation">
+      <button id="target" aria-label="Target latihan" style="display:none;position:absolute;width:38px;height:38px;padding:0;border:3px solid #fff;border-radius:50%;background:#ff2424;box-shadow:0 0 15px #ff2424"></button>
+      <div id="arenaHint" style="position:absolute;inset:0;display:grid;place-items:center;color:#888;font-size:12px;text-align:center;padding:20px">Tekan MULAI LATIHAN untuk memulai</div>
+    </div>
+    <div class="actions" style="margin-top:10px">
+      <button class="primary" id="startTrainer">MULAI LATIHAN</button>
+      <button class="secondary" id="stopTrainer">SELESAI / RESET</button>
+    </div>
+    <p class="notice">Trainer ini hanya melatih klik/ketepatan pada target simulasi; tidak membaca layar game, tidak mengendalikan Free Fire, dan tidak mengunci lawan secara otomatis.</p>
+  </section>
+  <section class="card">
+    <div class="title">PROFILE SWITCHES</div>
+    <div class="row" style="margin-bottom:14px"><div><label>Drag Aim Profile</label><br><small>Menandai profil latihan sebagai aktif</small></div><button class="toggle on" id="dragToggle" aria-label="Toggle Drag Aim"></button></div>
+    <div class="row"><div><label>Mouse Profile</label><br><small>Mengaktifkan preset di halaman ini</small></div><button class="toggle on" id="mouseToggle" aria-label="Toggle Mouse Profile"></button></div>
+  </section>
+  <section class="card">
+    <div class="title">CONFIG FILE</div>
+    <div class="actions">
+      <button class="primary" id="save">SIMPAN PRESET</button>
+      <button class="secondary" id="export">EKSPOR JSON</button>
+      <label class="secondary" for="importFile" style="text-align:center;cursor:pointer">IMPOR JSON</label>
+      <input id="importFile" type="file" accept=".json,application/json">
+      <button class="secondary" id="reset">RESET</button>
+    </div>
+    <p id="message" class="notice" aria-live="polite"></p>
+  </section>
+  <section class="card"><div class="title">INFO</div><p class="notice">TCOR Mouse Config menyimpan dan mengelola preset lokal. Aplikasi ini tidak membuat auto-lock kepala, tidak membaca target di layar, dan tidak mengubah mekanisme bidikan Free Fire. Terapkan nilai secara manual pada pengaturan yang tersedia.</p></section>
+</main>
+<footer>TCOR MOUSE CONFIG • BLACK RED EDITION</footer>
+<script>
+const ids=['general','redDot','scope2','scope4','dpi'];
+function update(){ids.forEach(id=>document.getElementById(id+'Val').textContent=document.getElementById(id).value)}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
+function toggle(id){document.getElementById(id).classList.toggle('on')}
+document.getElementById('dragToggle').onclick=()=>toggle('dragToggle');
+document.getElementById('mouseToggle').onclick=()=>toggle('mouseToggle');
+const presetValues={
+ stable:{general:75,redDot:70,scope2:65,scope4:55,dpi:800},
+ drag:{general:100,redDot:95,scope2:80,scope4:65,dpi:1000},
+ tracking:{general:85,redDot:80,scope2:70,scope4:60,dpi:800}
+};
+function setPreset(name){const v=presetValues[name];if(!v)return;ids.forEach(id=>document.getElementById(id).value=v[id]);update();msg('Preset '+name.toUpperCase()+' dipilih. Simpan jika ingin menyimpannya.')}
+document.getElementById('stablePreset').onclick=()=>setPreset('stable');
+document.getElementById('dragPreset').onclick=()=>setPreset('drag');
+document.getElementById('trackingPreset').onclick=()=>setPreset('tracking');
+document.getElementById('customPreset').onclick=()=>msg('Mode CUSTOM: atur slider sesuai kontrol perangkatmu.');
+let trainerTimer=null, remaining=30, hits=0, misses=0, running=false;
+const arena=document.getElementById('arena'), target=document.getElementById('target'), hint=document.getElementById('arenaHint');
+function updateStats(){document.getElementById('score').textContent=hits;document.getElementById('accuracy').textContent=((hits+misses)?Math.round(hits/(hits+misses)*100):0)+'%';document.getElementById('timeLeft').textContent=remaining}
+function moveTarget(){const maxX=Math.max(0,arena.clientWidth-42),maxY=Math.max(0,arena.clientHeight-42);target.style.left=Math.round(Math.random()*maxX)+'px';target.style.top=Math.round(Math.random()*maxY)+'px'}
+function stopTrainer(reset=false){running=false;if(trainerTimer){clearInterval(trainerTimer);trainerTimer=null}target.style.display='none';hint.style.display='grid';hint.textContent=reset?'Tekan MULAI LATIHAN untuk memulai':`Selesai! Skor ${hits}, akurasi ${((hits+misses)?Math.round(hits/(hits+misses)*100):0)}%.`;if(reset){remaining=30;hits=0;misses=0;updateStats()}}
+document.getElementById('startTrainer').onclick=()=>{if(running)return;remaining=30;hits=0;misses=0;running=true;updateStats();hint.style.display='none';target.style.display='block';moveTarget();trainerTimer=setInterval(()=>{remaining--;updateStats();if(remaining<=0)stopTrainer()},1000)};
+document.getElementById('stopTrainer').onclick=()=>stopTrainer(true);
+target.onclick=e=>{e.stopPropagation();if(!running)return;hits++;updateStats();moveTarget()};
+arena.onclick=e=>{if(running&&e.target!==target){misses++;updateStats()}};
+
+function getConfig(){return {app:'TCOR Mouse Config',version:1,profile:'Mobilador USB OTG',values:Object.fromEntries(ids.map(id=>[id,Number(document.getElementById(id).value)])),dragAimEnabled:document.getElementById('dragToggle').classList.contains('on'),mouseProfileEnabled:document.getElementById('mouseToggle').classList.contains('on')}}
+function applyConfig(c){if(c.values)ids.forEach(id=>{if(Number.isFinite(Number(c.values[id])))document.getElementById(id).value=Math.max(Number(document.getElementById(id).min),Math.min(Number(document.getElementById(id).max),Number(c.values[id])))});['dragToggle','mouseToggle'].forEach((id,i)=>{const key=i?'mouseProfileEnabled':'dragAimEnabled';document.getElementById(id).classList.toggle('on',c[key]!==false)});update()}
+function msg(s){document.getElementById('message').textContent=s}
+document.getElementById('save').onclick=()=>{localStorage.setItem('tcorMouseConfig',JSON.stringify(getConfig()));msg('Preset tersimpan di browser/perangkat ini.')};
+document.getElementById('export').onclick=()=>{const blob=new Blob([JSON.stringify(getConfig(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='TCOR_Mouse_Config.json';a.click();URL.revokeObjectURL(a.href);msg('File JSON diekspor.')};
+document.getElementById('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{applyConfig(JSON.parse(await f.text()));msg('Preset berhasil diimpor. Tekan Simpan Preset untuk menyimpannya.')}catch{msg('File JSON tidak valid.')}e.target.value=''};
+document.getElementById('reset').onclick=()=>{ids.forEach(id=>document.getElementById(id).value=({'general':90,'redDot':85,'scope2':80,'scope4':70,'dpi':800})[id]);document.getElementById('dragToggle').classList.add('on');document.getElementById('mouseToggle').classList.add('on');update();msg('Preset dikembalikan ke nilai awal.')};
+try{const saved=localStorage.getItem('tcorMouseConfig');if(saved)applyConfig(JSON.parse(saved))}catch{}update();
+</script>
+</body></html>

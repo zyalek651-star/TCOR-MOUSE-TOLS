@@ -1,27 +1,21 @@
-package com.kyuuze.tcor;
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebSettings;
-import android.webkit.WebViewClient;
+    <application
+        android:label="TCOR MOUSE CONFIG"
+        android:theme="@android:style/Theme.Material.NoActionBar"
+        android:hardwareAccelerated="true">
 
-public class MainActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        <activity
+            android:name="com.kyuuze.tcor.MainActivity"
+            android:exported="true">
 
-        WebView webView = new WebView(this);
-        WebSettings settings = webView.getSettings();
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
+        </activity>
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(
-            "file:///android_asset/TCOR_Mouse_Config.html"
-        );
-
-        setContentView(webView);
-    }
-}
+    </application>
+</manifest>
